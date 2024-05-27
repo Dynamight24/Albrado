@@ -60,10 +60,11 @@ footer {
 .container {
     position: relative;
     width: 100vw;
-    height: 100vh;
+    height: 140vh;
     overflow: hidden;
     /* background: #e05a5a; */
     background-image: url("/assets/BG.jpg");
+    border-radius: 0 0 30% 30%;
 }
 
 .slider {
@@ -94,7 +95,6 @@ footer {
 
 .copy {
     position: absolute;
-    border: 3px solid darkblue;
     top: 40%;
     left: 50%;
     width: 100%;
@@ -147,3 +147,64 @@ h1 span {
     }
 }
 
+.service-heading {
+    padding-top: 3em;
+}
+.service-heading > h1 {
+    font-size: 3em;
+    font-weight: bold;
+    background: linear-gradient(to right, #d12525, #ab06ed);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.serviceContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    height: 100%;
+    width: 80vw;
+    margin: auto;
+
+}
+
+.service {
+    display: flex;
+    transition: all 0.3s;
+    height: 20vmax;
+    width: 18vmax; /* Adjust width to fit multiple items */
+    cursor: pointer;
+    flex-direction: column;
+    /* img name & price in col */
+    align-items: center;
+    margin: 1vmax;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.service:hover {
+    transform: translateY(-10px);
+}
+
+.service > p {
+    color: black;
+    padding: 2em;
+}
+
+.service > h2 {
+    padding: 0.5em 0.5em 0.5em 0;
+}
+
+@media (max-width: 600px) {
+    .service {
+        width: 100vw; /* Adjust width for smaller screens */
+        height: auto; /* Allow height to adjust automatically */
+    }
+}
+
+@media (min-width: 601px) and (max-width: 1024px) { /* Tablet screens */
+    .service {
+        width: 25vw; /* Adjust width for tablets */
+        height: auto; /* Allow height to adjust automatically */
+    }
+}
