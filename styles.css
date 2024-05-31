@@ -24,7 +24,7 @@ p, a {
 }
 
 nav {
-    position: absolute;
+    position: fixed;
     top: 0;
     width: 100%;
     padding: 2em;
@@ -64,7 +64,7 @@ footer {
     overflow: hidden;
     /* background: #e05a5a; */
     background-image: url("/assets/BG.jpg");
-    border-radius: 0 0 30% 30%;
+    background-attachment: fixed;
 }
 
 .slider {
@@ -82,7 +82,7 @@ footer {
     top: 50%;
     left: 50%;
     width: 50%;
-    height: 500px;
+    height: 31rem;
     border-radius: 10px;
     overflow: hidden;
     transform: translate3d(-50%,-50%,0);
@@ -126,7 +126,7 @@ h1 span {
     text-align: center;
     color: white;
     font-weight: 100;
-    line-height: 1.5em;
+    line-height: 1.5rem;
 }
 
 @media (max-width: 900px){
@@ -143,15 +143,15 @@ h1 span {
 
     .copy > p {
         width: 90%; /* Increase width to use more of the screen width on mobile */
-        font-size: 4vw; /* Adjust font size for readability */
+       
     }
 }
 
 .service-heading {
-    padding-top: 3em;
+    padding-top: 3rem;
 }
 .service-heading > h1 {
-    font-size: 3em;
+    font-size: 3rem;
     font-weight: bold;
     background: linear-gradient(to right, #d12525, #ab06ed);
     background-clip: text;
@@ -188,7 +188,7 @@ h1 span {
 
 .service > p {
     color: black;
-    padding: 2em;
+    padding: 2rem;
 }
 
 .service > h2 {
@@ -208,3 +208,22 @@ h1 span {
         height: auto; /* Allow height to adjust automatically */
     }
 }
+
+/* Base font size */
+html {
+    font-size: 16px; /* Adjust as needed */
+  }
+  
+  /* Media query for smaller devices */
+  @media (max-width: 768px) {
+    html {
+      font-size: 12px; /* Adjust for smaller devices */
+    }
+  }
+  
+  /* Media query for even smaller devices */
+  @media (max-width: 480px) {
+    html {
+      font-size: 10px; /* Adjust for even smaller devices */
+    }
+  }

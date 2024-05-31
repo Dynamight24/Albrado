@@ -1,5 +1,6 @@
 CustomEase.create("cubic", "0.83, 0, 0.17, 1");
 let isAnimating = false;
+let currentIndex = 0;
 
 function splitTextIntoSpans(selector){
     let elements = document.querySelectorAll(selector);
@@ -26,20 +27,20 @@ function initializeCards(){
     });
 
 }
-// Function to scale the card to full screen
-function scaleCardToFullScreen() {
-    const container = document.querySelector('.container');
-    const card = document.querySelector('.card');
+// // Function to scale the card to full screen
+// function scaleCardToFullScreen() {
+//     const container = document.querySelector('.container');
+//     const card = document.querySelector('.card');
 
-    const containerWidth = container.offsetWidth;
-    const containerHeight = container.offsetHeight;
+//     const containerWidth = container.offsetWidth;
+//     const containerHeight = container.offsetHeight;
 
-    const scaleX = containerWidth / card.offsetWidth;
-    const scaleY = containerHeight / card.offsetHeight;
-    const scale = Math.max(scaleX, scaleY);
+//     const scaleX = containerWidth / card.offsetWidth;
+//     const scaleY = containerHeight / card.offsetHeight;
+//     const scale = Math.max(scaleX, scaleY);
 
-    return scale;
-}
+//     return scale;
+// }
 
 document.addEventListener("DOMContentLoaded", function(){
     splitTextIntoSpans(".copy h1");
@@ -48,7 +49,7 @@ document.addEventListener("DOMContentLoaded", function(){
     const scale = scaleCardToFullScreen();
     gsap.set("h1 span", {y: -200});
     gsap.set(".slider .card:last-child h1 span", {y:0})
-    gsap.set(".slider .card:last-child", {scaleX:scale, scaleY:scale,ZIndex: 1000,})
+    // gsap.set(".slider .card:last-child", {scaleX:scale, scaleY:scale,ZIndex: 1000,})
 });
 
 function handleEvent(){
@@ -75,8 +76,16 @@ function handleEvent(){
             slider.prepend(lastCard);
             initializeCards();
             gsap.set(lastCard.querySelectorAll("h1 span"), {y: -200});
-            gsap.set(lastCard, {scaleX: 1, scaleY: 1, ZIndex: 1});
-            
+            // gsap.set(lastCard, {scaleX: 1, scaleY: 1, ZIndex: 1})
+
+            // Update the current index
+            currentIndex = (currentIndex + 1);
+
+            if (currentIndex === cards.length+1) {
+                document.querySelector('.service-heading').scrollIntoView({ behavior: 'smooth' });
+                currentIndex = 0;
+            }
+
             setTimeout(() => {
                 isAnimating = false;
             },1000)
