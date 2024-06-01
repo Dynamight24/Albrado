@@ -3,7 +3,6 @@ CustomEase.create("cubic", "0.83, 0, 0.17, 1");
 
 // State variables
 let isAnimating = false;
-let currentIndex = 0;
 let isExpanded = false;
 let currentCard = null;
 
@@ -155,14 +154,6 @@ function handleEvent() {
       slider.prepend(lastCard);
       initializeCards();
       gsap.set(lastCard.querySelectorAll("h1 span"), { y: -200 });
-      
-      // Update the current index
-      currentIndex = currentIndex + 1;
-
-      if (currentIndex === cards.length + 1) {
-        document.querySelector('.service-heading').scrollIntoView({ behavior: 'smooth' });
-        currentIndex = 0;
-      }
 
       setTimeout(() => {
         isAnimating = false;
