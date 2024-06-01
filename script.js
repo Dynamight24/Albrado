@@ -27,20 +27,6 @@ function initializeCards(){
     });
 
 }
-// // Function to scale the card to full screen
-// function scaleCardToFullScreen() {
-//     const container = document.querySelector('.container');
-//     const card = document.querySelector('.card');
-
-//     const containerWidth = container.offsetWidth;
-//     const containerHeight = container.offsetHeight;
-
-//     const scaleX = containerWidth / card.offsetWidth;
-//     const scaleY = containerHeight / card.offsetHeight;
-//     const scale = Math.max(scaleX, scaleY);
-
-//     return scale;
-// }
 
 document.addEventListener("DOMContentLoaded", function(){
     splitTextIntoSpans(".copy h1");
@@ -49,7 +35,6 @@ document.addEventListener("DOMContentLoaded", function(){
     const scale = scaleCardToFullScreen();
     gsap.set("h1 span", {y: -200});
     gsap.set(".slider .card:last-child h1 span", {y:0})
-    // gsap.set(".slider .card:last-child", {scaleX:scale, scaleY:scale,ZIndex: 1000,})
 });
 
 function handleEvent(){
@@ -100,11 +85,26 @@ function handleEvent(){
     });
 }
 
-document.addEventListener("click", handleEvent);
+document.addEventListener("scroll", handleEvent);
 
 
-// let nextSection = document.querySelector(".service");
-// window.scrollTo({
-//     top: nextSection.offsetTop,
-//     behavior: 'smooth'
-// });
+const handleClick = () => {
+    const tl = gsap.timeline();
+
+    tl.to('.initial-bg', {
+      scale: 1.5, // Scale up to give zoom-out effect
+      opacity: 0,
+      duration: 1.5,
+      ease: 'power2.out',
+      onComplete: () => {
+        document.querySelector('.initial-bg').style.display = 'none';
+      }
+    })
+    .to('.container', {
+      opacity: 1,
+      duration: 1.5,
+      ease: 'power2.out'
+    }, "-=1"); // Start this animation 1 second before the previous one ends
+
+  };
+  document.addEventListener("click", handleClick);

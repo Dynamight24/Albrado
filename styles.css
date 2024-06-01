@@ -60,12 +60,14 @@ footer {
 .container {
     position: relative;
     width: 100vw;
-    height: 140vh;
+    height: 100vh;
     overflow: hidden;
     /* background: #e05a5a; */
     background-image: url("/assets/BG.jpg");
     background-attachment: fixed;
 }
+
+
 
 .slider {
     position: absolute;
@@ -193,6 +195,17 @@ h1 span {
 
 .service > h2 {
     padding: 0.5em 0.5em 0.5em 0;
+}
+
+.initial-bg {
+    background-image: url("/assets/2105.jpg");
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    background-size: cover;
+    background-position: center;
+    overflow: hidden;
+    height: 100vh;
 }
 
 @media (max-width: 600px) {
