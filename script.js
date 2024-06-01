@@ -2,90 +2,126 @@ CustomEase.create("cubic", "0.83, 0, 0.17, 1");
 let isAnimating = false;
 let currentIndex = 0;
 
-function splitTextIntoSpans(selector){
-    let elements = document.querySelectorAll(selector);
-    elements.forEach((element)=>{
-        let text = element.innerText;
-        let splitText = text
-        .split("")
-        .map(function(char){
-            return `<span>${char === " " ? "&nbsp;&nbsp;" : char}</span>`
-        })
-        .join("");
+function splitTextIntoSpans(selector) {
+  let elements = document.querySelectorAll(selector);
+  elements.forEach((element) => {
+    let text = element.innerText;
+    let splitText = text
+      .split("")
+      .map(function (char) {
+        return `<span>${char === " " ? "&nbsp;&nbsp;" : char}</span>`;
+      })
+      .join("");
 
-        element.innerHTML = splitText;
-    });
+    element.innerHTML = splitText;
+  });
 }
 
-function initializeCards(){
-    let cards = Array.from(document.querySelectorAll(".card"));
-    gsap.to(cards,{
-        y: (i) => -15 + 15 * i + "%",
-        z: (i) => 15 * i,
-        ease: "cubic",
-        stagger: -0.1,
-    });
-
+function initializeCards() {
+  let cards = Array.from(document.querySelectorAll(".card"));
+  gsap.to(cards, {
+    y: (i) => -15 + 15 * i + "%",
+    z: (i) => 15 * i,
+    ease: "cubic",
+    stagger: -0.1,
+  });
 }
 
-document.addEventListener("DOMContentLoaded", function(){
-    splitTextIntoSpans(".copy h1");
-    initializeCards();
+document.addEventListener("DOMContentLoaded", function () {
+  splitTextIntoSpans(".copy h1");
+  initializeCards();
 
-    const scale = scaleCardToFullScreen();
-    gsap.set("h1 span", {y: -200});
-    gsap.set(".slider .card:last-child h1 span", {y:0})
+  const scale = scaleCardToFullScreen();
+  gsap.set("h1 span", { y: -200 });
+  gsap.set(".slider .card:last-child h1 span", { y: 0 });
 });
 
-function handleEvent(){
-    if(isAnimating) return;
+function handleEvent() {
+  if (isAnimating) return;
 
-    isAnimating = true;
+  isAnimating = true;
 
-    let slider = document.querySelector(".slider");
-    let cards = Array.from(slider.querySelectorAll(".card"));
-    let lastCard = cards.pop();
-    let nextCard = cards[cards.length - 1];
+  let slider = document.querySelector(".slider");
+  let cards = Array.from(slider.querySelectorAll(".card"));
+  let lastCard = cards.pop();
+  let nextCard = cards[cards.length - 1];
 
-    gsap.to(lastCard.querySelectorAll("h1 span"), {
-        y: 200,
-        duration: 0.75,
-        ease: "cubic",
-    });
- 
-    gsap.to(lastCard, {
-        y: "+=150%",
-        duration: 0.75,
-        ease: "cubic",
-        onComplete: () => {
-            slider.prepend(lastCard);
-            initializeCards();
-            gsap.set(lastCard.querySelectorAll("h1 span"), {y: -200});
-            // gsap.set(lastCard, {scaleX: 1, scaleY: 1, ZIndex: 1})
+  gsap.to(lastCard.querySelectorAll("h1 span"), {
+    y: 200,
+    duration: 0.75,
+    ease: "cubic",
+  });
 
-            // Update the current index
-            currentIndex = (currentIndex + 1);
+  gsap.to(lastCard, {
+    y: "+=150%",
+    duration: 0.75,
+    ease: "cubic",
+    onComplete: () => {
+      slider.prepend(lastCard);
+      initializeCards();
+      gsap.set(lastCard.querySelectorAll("h1 span"), { y: -200 });
+      // gsap.set(lastCard, {scaleX: 1, scaleY: 1, ZIndex: 1})
 
-            if (currentIndex === cards.length+1) {
-                document.querySelector('.service-heading').scrollIntoView({ behavior: 'smooth' });
-                currentIndex = 0;
-            }
+      // Update the current index
+      currentIndex = currentIndex + 1;
 
-            setTimeout(() => {
-                isAnimating = false;
-            },1000)
-        },
-    });
- 
-    gsap.to(nextCard.querySelectorAll("h1 span"), {
-        y: 0,
-        duration: 1,
-        ease: "cubic",
-        stagger: 0.05,
-    });
+      if (currentIndex === cards.length + 1) {
+        document.querySelector('.service-heading').scrollIntoView({ behavior: 'smooth' });
+        currentIndex = 0;
+      }
+
+      setTimeout(() => {
+        isAnimating = false;
+      }, 1000);
+    },
+  });
+
+  gsap.to(nextCard.querySelectorAll("h1 span"), {
+    y: 0,
+    duration: 1,
+    ease: "cubic",
+    stagger: 0.05,
+  });
 }
 
-document.addEventListener("scroll", handleEvent);
+// Function to handle mouse wheel event
+function handleMouseWheel(event) {
+  // Prevent default behavior to avoid scrolling the page
+  event.preventDefault();
+
+  // Trigger the animation logic
+  handleEvent();
+}
+
+// Function to start listening for mouse wheel events
+function startListeningForMouseWheel() {
+  // Attach mouse wheel event listener to the document
+  document.addEventListener("wheel", handleMouseWheel);
+  // Disable body scrolling
+  document.body.style.overflow = 'hidden';
+}
+
+// Function to stop listening for mouse wheel events
+function stopListeningForMouseWheel() {
+  // Remove mouse wheel event listener from the document
+  document.removeEventListener("wheel", handleMouseWheel);
+  // Enable body scrolling
+  document.body.style.overflow = '';
+}
+
+// Function to handle mouse enter event on the slider div
+function handleMouseEnter() {
+  startListeningForMouseWheel();
+}
+
+// Function to handle mouse leave event on the slider div
+function handleMouseLeave() {
+  stopListeningForMouseWheel();
+}
+
+// Add event listeners for mouse enter and mouse leave on the slider div
+document.querySelector(".slider").addEventListener("mouseenter", handleMouseEnter);
+document.querySelector(".slider").addEventListener("mouseleave", handleMouseLeave);
 
 
 const handleClick = () => {
