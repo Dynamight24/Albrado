@@ -33,8 +33,6 @@ function initializeCards() {
   });
 }
 
-// Function to scale card to full screen
-// Function to scale card to full screen
 // Function to handle card click event and expand
 function handleCardClick(event) {
   const card = event.currentTarget;
@@ -49,6 +47,9 @@ function scaleCardToFullScreen(card) {
   currentCard = card;
   card.classList.add("card-expanded");
 
+  // Hide the navbar
+  document.querySelector("nav").style.display = "none";
+
   // Create and add the back button within the card
   let backButton = document.createElement("button");
   backButton.className = "back-button";
@@ -57,14 +58,14 @@ function scaleCardToFullScreen(card) {
 
   // Add event listener to the back button using event delegation
   card.addEventListener("click", handleBackButtonClick);
-  
+
   gsap.to(card, {
     duration: 0.3,
     x: 0,
     y: 0,
     width: "100%",
     height: "100%",
-    ease: "power2.out",
+    ease: "power2.out"
   });
 }
 
@@ -85,7 +86,10 @@ function shrinkCard() {
     if (backButton) {
       backButton.remove();
     }
-    
+
+    // Show the navbar again
+    document.querySelector("nav").style.display = "block";
+
     gsap.to(currentCard, {
       duration: 0.3,
       width: "",
@@ -104,10 +108,6 @@ document.querySelectorAll(".card").forEach((card) => {
   card.addEventListener("click", handleCardClick);
 });
 
-
-
-
-// DOMContentLoaded event listener
 document.addEventListener("DOMContentLoaded", function () {
   splitTextIntoSpans(".copy h1");
   initializeCards();
@@ -138,14 +138,12 @@ function handleEvent() {
   let lastCard = cards.pop();
   let nextCard = cards[cards.length - 1];
 
-  // Reduce the duration for the text animation on the last card
   gsap.to(lastCard.querySelectorAll("h1 span"), {
     y: 200,
     duration: 0.3, // Reduced duration for quicker animation
     ease: "power1.inOut", // Changed easing for smoother transitions
   });
 
-  // Reduce the duration for moving the last card
   gsap.to(lastCard, {
     y: "+=150%",
     duration: 0.3, // Reduced duration for quicker animation
@@ -161,7 +159,6 @@ function handleEvent() {
     },
   });
 
-  // Reduce the duration for the text animation on the next card
   gsap.to(nextCard.querySelectorAll("h1 span"), {
     y: 0,
     duration: 0.5, // Reduced duration for quicker animation
@@ -183,13 +180,11 @@ function handleMouseWheel(event) {
 
 // Function to start listening for mouse wheel events
 function startListeningForMouseWheel() {
-  // Attach mouse wheel event listener to the document
   document.addEventListener("wheel", handleMouseWheel, { passive: false });
 }
 
 // Function to stop listening for mouse wheel events
 function stopListeningForMouseWheel() {
-  // Remove mouse wheel event listener from the document
   document.removeEventListener("wheel", handleMouseWheel);
 }
 
@@ -225,3 +220,43 @@ const handleClick = () => {
 
 // Add click event listener to the document
 document.addEventListener("click", handleClick);
+
+
+
+
+let touchStartY = 0;
+let touchEndY = 0;
+
+// Function to start listening for touch events
+function startListeningForTouch() {
+  document.addEventListener("touchstart", handleTouchStart, { passive: false });
+  document.addEventListener("touchmove", handleTouchMove, { passive: false });
+}
+
+// Function to stop listening for touch events
+function stopListeningForTouch() {
+  document.removeEventListener("touchstart", handleTouchStart);
+  document.removeEventListener("touchmove", handleTouchMove);
+}
+
+// Function to handle touch start event
+function handleTouchStart(event) {
+  if (isExpanded) return; // Prevent scroll animation when a card is expanded
+  touchStartY = event.touches[0].clientY;
+}
+
+// Function to handle touch move event
+function handleTouchMove(event) {
+  if (isExpanded) return; // Prevent scroll animation when a card is expanded
+  event.preventDefault();
+
+  touchEndY = event.touches[0].clientY;
+  let deltaY = touchEndY - touchStartY;
+
+  if (deltaY > 50) { // Adjust this threshold as needed
+    handleEvent();
+  }
+}
+
+// Start listening for touch events
+startListeningForTouch();
