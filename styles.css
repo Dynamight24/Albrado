@@ -77,7 +77,7 @@ footer {
     overflow: hidden;
     perspective: 200px;
     perspective-origin: 50% 100%;
-    border: 3px solid black;
+
 }
 
 .card {
@@ -97,6 +97,11 @@ footer {
 }
 
 .copy {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
     position: absolute;
     top: 40%;
     left: 50%;
@@ -104,6 +109,7 @@ footer {
     height: 80%;
     transform: translate(-50%,-50%);
     clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+
 }
 
 h1{
@@ -123,13 +129,27 @@ h1 span {
 }
 
 .copy > p {
-    width: 80%;
-    margin: auto;
+    width: 40vw;
+    height: 90%;
+    padding: 2rem;
     position: relative;
     text-align: center;
     color: white;
     font-weight: 100;
     line-height: 1.5rem;
+    border: 2px solid black;
+    overflow: auto;
+}
+.copy > p::after {
+    content: '...'; /* Ellipsis content */
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding-left: 2rem; /* Adjust as needed */
+    background: linear-gradient(to right, rgba(0,0,0,0), rgba(0,0,0,1) 90%); /* Gradient to fade out the ellipsis */
+}
+.copy > p::-webkit-scrollbar {
+    display: none; /* Hide scrollbar UI */
 }
 
 @media (max-width: 900px){
@@ -144,10 +164,10 @@ h1 span {
         line-height: 1.5em; /* Adjust line-height to fit smaller screens */
     }
 
-    .copy > p {
-        width: 90%; /* Increase width to use more of the screen width on mobile */
+    /* .copy > p {
+        width: 90%; 
        
-    }
+    } */
 }
 
 .service-heading {
@@ -199,7 +219,7 @@ h1 span {
 }
 
 .initial-bg {
-    background-image: url("/assets/2105.jpg");
+    background-image: url("/assets/3d\ mockup.jpg");
     position: absolute;
     inset: 0;
     z-index: 10;
