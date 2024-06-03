@@ -129,6 +129,7 @@ h1 span {
 }
 
 .copy > p {
+    background-image: url("assets/BG.jpg");
     width: 40vw;
     height: 90%;
     padding: 2rem;

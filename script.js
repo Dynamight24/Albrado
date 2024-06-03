@@ -65,7 +65,7 @@ function scaleCardToFullScreen(card) {
     y: 0,
     width: "100%",
     height: "100%",
-    ease: "power2.out"
+    ease: "power2.out",
   });
 }
 
@@ -200,28 +200,41 @@ function handleMouseLeave() {
 
 // Function to handle click event and animate the background
 const handleClick = () => {
-  const tl = gsap.timeline();
+  // Add overflow hidden to prevent scrollbars during transition
+  document.documentElement.style.overflow = "hidden";
+  document.body.style.overflow = "hidden";
 
-  tl.to('.initial-bg', {
+  const tl = gsap.timeline({
+    onComplete: () => {
+      // Remove overflow hidden after the transition is complete
+      document.documentElement.style.overflow = "";
+      document.body.style.overflow = "";
+    },
+  });
+
+  tl.to(".initial-bg", {
     scale: 1.5, // Scale up to give zoom-out effect
     opacity: 0,
     duration: 1.5,
-    ease: 'power2.out',
+    ease: "power2.out",
+
     onComplete: () => {
-      document.querySelector('.initial-bg').style.display = 'none';
-    }
-  })
-  .to('.container', {
-    opacity: 1,
-    duration: 1.5,
-    ease: 'power2.out'
-  }, "-=1"); // Start this animation 1 second before the previous one ends
+      document.querySelector(".initial-bg").style.display = "none";
+    },
+  }).to(
+    ".container",
+    {
+      opacity: 1,
+      duration: 1.5,
+      ease: "power2.out",
+    },
+    "-=1"
+  ); // Start this animation 1 second before the previous one ends
 };
 
 // Add click event listener to the document
 document.addEventListener("click", handleClick);
-
-
+///////////////////////////////////////////////////////
 
 
 let touchStartY = 0;
@@ -253,7 +266,7 @@ function handleTouchMove(event) {
   touchEndY = event.touches[0].clientY;
   let deltaY = touchEndY - touchStartY;
 
-  if (deltaY > 50) { // Adjust this threshold as needed
+  if (deltaY > 50 || deltaY < -50) { // Adjust this threshold as needed
     handleEvent();
   }
 }
